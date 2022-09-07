@@ -1,13 +1,5 @@
 #include "lib.h"
 
-
-class Op {
-    public:
-        virtual Run run(double a, double b, string A, string B) { return *new Run; };
-        virtual int getPri() { return 0; };
-        virtual string getOp() { return ""; };
-};
-
 class mais: public Op {
     public:
         Run run(double a, double b, string A, string B) {

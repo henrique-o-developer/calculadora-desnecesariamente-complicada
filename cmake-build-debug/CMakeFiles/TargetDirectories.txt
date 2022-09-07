@@ -1,0 +1,3 @@
+C:/Users/henri/OneDrive/Documentos/pro/c or c++/bagulhador/cmake-build-debug/CMakeFiles/bagulhador.dir
+C:/Users/henri/OneDrive/Documentos/pro/c or c++/bagulhador/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/henri/OneDrive/Documentos/pro/c or c++/bagulhador/cmake-build-debug/CMakeFiles/rebuild_cache.dir
