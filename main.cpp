@@ -135,31 +135,52 @@ string generify(string s, int ii, bool fow) {
     return ret;
 }
 
+vector<string> getOperations() {
+    vector<string> ret = {"+", "-", "*", "/", "!", "?", "^", "sqrt", "cos", "tan"};
+
+    return ret;
+}
+
+int getOperationPriority(const string& s) {
+    if (s == "+" || s == "-") return 1;
+    if (s == "*" || s == "/") return 2;
+    if (s == "sqrt" || s == "^") return 3;
+    if (s == "!" || s == "?") return 4;
+    if (s == "cos" || s == "tan") return 5;
+
+    return 0;
+}
+
+/*
+
+vector<Op*> ops = getOperationss();
+
+*/
+
 Operation getPriority(string s) {
     Operation fin;
 
     fin.exi = false;
 
-    vector<Op*> ops = getOperationss();
+    vector<string> ops = getOperations();
     vector<Operation> arr;
 
     for (int i = 0; i < s.length(); ++i) {
         for (const auto &item: ops) {
             bool is = true;
 
-            for (int j = 0; j < item->getOp().length(); ++j) {
-                if (s[i + j] != item->getOp()[j]) { is = false; break; }
+            for (int j = 0; j < item.length(); ++j) {
+                if (s[i + j] != item[j]) { is = false; break; }
             }
 
             if (is) {
                 Operation op;
 
                 op.min = i;
-                op.max = i+item->getOp().length()-1;
-                op.ope = s.substr(i, item->getOp().length());
-                op.pri = item->getPri();
+                op.max = i+item.length()-1;
+                op.ope = s.substr(i, item.length());
+                op.pri = getOperationPriority(op.ope);
                 op.exi = true;
-                op.obj = item;
 
                 int g = generify(s, i, false).length();
 
@@ -201,18 +222,74 @@ string parse(string s) {
         int min = op.min, max = op.max;
         string OP = op.ope, A = generify(s, min, false), B = generify(s, max, true);
         double a = hstod(A), b = hstod(B);
-        bool useA, useB;
+        bool useA = true, useB = true;
 
-        Run r = op.obj->run(a, b, A, B);
+        if (OP == "+") res = to_string(a+b);
 
-        res = r.res;
-        useA = r.useA;
-        useB = r.useB;
+        if (OP == "-") res = to_string(a-b);
+
+        if (OP == "*") res = to_string(a*b);
+
+        if (OP == "/") res = to_string(a/b);
+
+        if (OP == "!") {
+            useB = false;
+
+            double con = 1;
+
+            for (double j = a; j > 0; j--) {
+                con *= j;
+            }
+
+            res = to_string(con);
+        }
+
+        if (OP == "?") {
+            useB = false;
+
+            double con = 0;
+
+            for (double j = a; j > 0; j-=1) {
+                con += j;
+            }
+
+            res = to_string(con);
+        }
+
+        if (OP == "sqrt") {
+            double sq;
+
+            if (onlyType(A, "number") && !A.empty()) {
+                sq = a;
+
+                useA = true;
+            } else {
+                sq = 2;
+
+                useA = false;
+            }
+
+            res = to_string(pow(b,1.0/sq));
+        }
+
+        if (OP == "^") res = to_string(pow(a, b));
+
+        if (OP == "cos") {
+            useA = false;
+
+            res = to_string(cos(b));
+        }
+
+        if (OP == "tan") {
+            useA = false;
+
+            res = to_string(tan(b));
+        }
 
         string S;
         int haveSp = 0;
         char c;
-        int norm;
+        int norm = 0;
 
         ret += "\n";
 
@@ -270,7 +347,7 @@ string parse(string s) {
 }
 
 int main() {
-    cout << parse("2 sqrt { 5 ^ 2 }");
+    //cout << parse("25 sqrt { 35 ^ 21 }");
 
     //cout << "pow: " << pow(27,1.0/3.0) << ";\n";
 
