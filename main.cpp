@@ -1,4 +1,4 @@
-#include "lib.h"
+#include "operations.h"
 
 string reverse(string s) {
     string ret;
@@ -33,6 +33,24 @@ string formatNumber(string s) {
     }
 
     return reverse(ret);
+}
+
+bool include(string s, string h) {
+    bool ret = false;
+
+    for (int i = 0; i < s.length(); i++) {
+        bool e = true;
+
+        for (int j = 0; j < h.length(); j++) {
+            if (s[i + j] != h[j]) e = false;
+        }
+
+        if (e) {
+            ret = true;
+        }
+    }
+
+    return ret;
 }
 
 string replace(string s, string r, string R) {
@@ -118,7 +136,7 @@ string generify(string s, int ii, bool fow) {
 }
 
 vector<string> getOperations() {
-    vector<string> ret = {"+", "-", "*", "/", "!", "?", "^", "sqrt"};
+    vector<string> ret = {"+", "-", "*", "/", "!", "?", "^", "sqrt", "cos", "tan"};
 
     return ret;
 }
@@ -128,9 +146,16 @@ int getOperationPriority(const string& s) {
     if (s == "*" || s == "/") return 2;
     if (s == "sqrt" || s == "^") return 3;
     if (s == "!" || s == "?") return 4;
+    if (s == "cos" || s == "tan") return 5;
 
     return 0;
 }
+
+/*
+
+vector<Op*> ops = getOperationss();
+
+*/
 
 Operation getPriority(string s) {
     Operation fin;
@@ -157,6 +182,12 @@ Operation getPriority(string s) {
                 op.pri = getOperationPriority(op.ope);
                 op.exi = true;
 
+                int g = generify(s, i, false).length();
+
+                if (s[i-g-1] == '{') op.pri = 1000;
+                if (s[i-g-1] == '[') op.pri = 10000;
+                if (s[i-g-1] == '(') op.pri = 100000;
+
                 arr.push_back(op);
             }
         }
@@ -181,9 +212,10 @@ Operation getPriority(string s) {
 }
 
 string parse(string s) {
-    s = replace(s, " ", "");
+    while(include(s, " ")) s = replace(s, " ", "");
+    while(include(s, ";")) s = replace(s, ";", "");
 
-    string ret, res;
+    string ret = "conta: " + s + ";\n", res;
     Operation op = getPriority(s);
 
     while (op.exi) {
@@ -242,35 +274,66 @@ string parse(string s) {
 
         if (OP == "^") res = to_string(pow(a, b));
 
-        string S;
+        if (OP == "cos") {
+            useA = false;
 
-        res = replace(res, "-", "n");
-        res = formatNumber(res);
+            res = to_string(cos(b));
+        }
+
+        if (OP == "tan") {
+            useA = false;
+
+            res = to_string(tan(b));
+        }
+
+        string S;
+        int haveSp = 0;
+        char c;
+        int norm = 0;
 
         ret += "\n";
 
         res = replace(res, "-", "n");
+        res = formatNumber(res);
 
-        if (useA) {
-            ret += A + " ";
+        if (useA) norm = min - A.length();
+        else norm = min;
 
-            S = s.substr(0, min - A.length());
-        } else {
-            S = s.substr(0, min);
-        }
+        c = s[norm - 1];
+
+        if (c == '(' || c == '[' || c == '{') haveSp = 1;
+
+        ret += s.substr(0, norm) + "~~  ";
+
+        if (useA) ret += A + " ";
 
         ret += OP;
+
+        S += s.substr(0, norm - haveSp);
+
         S += res;
 
-        if (useB) {
-            ret += " " + B;
+        haveSp = 0;
+        if (useB) norm = max + 1 + B.length();
+        else norm = max + 1;
 
-            S += s.substr(max + 1 + B.length(), s.length());
-        } else S += s.substr(max + 1, s.length());
+        c = s[max + B.length() + 1];
 
-        ret += " = " + res;
+        if (c == ')' || c == ']' || c == '}') haveSp = 1;
+
+        if (useB) ret += " " + B;
+
+        ret += " = ((" + res + "))";
+
+        ret += "  ~~" + s.substr(norm, s.length());
+        S += s.substr(norm + haveSp, s.length());
+
+        ret += ";";
 
         s = S;
+
+        cout << "s: " << s << ";\n";
+
 
         if (onlyType(s, "number")) {
             ret += "\nRESULTADO FINAL: " + res;
@@ -284,7 +347,7 @@ string parse(string s) {
 }
 
 int main() {
-    cout << "parse: " + parse("1/3") + ";\n";
+    //cout << parse("25 sqrt { 35 ^ 21 }");
 
     //cout << "pow: " << pow(27,1.0/3.0) << ";\n";
 

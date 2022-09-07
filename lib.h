@@ -17,4 +17,13 @@ class Operation {
         string ope;
 };
 
+class Run : public error_code {
+    public:
+        string res;
+        bool useA = true;
+        bool useB = true;
+};
+
+bool onlyType(string s, string t);
 string parse(string s);
+string generify(string s);
