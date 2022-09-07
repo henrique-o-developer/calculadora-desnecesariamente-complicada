@@ -198,17 +198,19 @@ string parse(string s) {
     Operation op = getPriority(s);
 
     while (op.exi) {
+        // vars
         int min = op.min, max = op.max;
         string OP = op.ope, A = generify(s, min, false), B = generify(s, max, true);
         double a = hstod(A), b = hstod(B);
-        bool useA, useB;
 
+        // code
         Run r = op.obj->run(a, b, A, B);
 
         res = r.res;
-        useA = r.useA;
-        useB = r.useB;
+        bool useA = r.useA;
+        bool useB = r.useB;
 
+        // using code
         string S;
         int haveSp = 0;
         char c;
@@ -255,9 +257,6 @@ string parse(string s) {
 
         s = S;
 
-        cout << "s: " << s << ";\n";
-
-
         if (onlyType(s, "number")) {
             ret += "\nRESULTADO FINAL: " + res;
             op.exi = false;
@@ -270,7 +269,16 @@ string parse(string s) {
 }
 
 int main() {
-    cout << parse("2 sqrt { 5 ^ 2 }");
+    string ex;
+
+    while (true) {
+        cout << "\ndigite a conta para o programa resolver, caso nao queira mais digite \"parar\"\nconta:";
+        cin >> ex;
+
+        if (ex == "parar") break;
+
+        cout << parse(ex);
+    }
 
     //cout << "pow: " << pow(27,1.0/3.0) << ";\n";
 
