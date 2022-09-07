@@ -1,0 +1,13 @@
+{
+  "version": "0.2.1",
+  "defaults": {},
+  "configurations": [
+    {
+      "type": "default",
+      "project": "main.cpp",
+      "projectTarget": "",
+      "name": "main.cpp",
+      "externalConsole": false                                                                          
+    }
+  ]
+}

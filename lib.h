@@ -8,20 +8,29 @@ using namespace std;
 
 stringstream convet;
 
-class Operation {
-    public:
-        int min;
-        int max;
-        int pri;
-        bool exi;
-        string ope;
-};
 
 class Run : public error_code {
     public:
         string res;
         bool useA = true;
         bool useB = true;
+};
+
+class Op {
+    public:
+        virtual Run run(double a, double b, string A, string B) { return Run(); };
+        virtual int getPri() { return 0; };
+        virtual string getOp() { return ""; };
+};
+
+class Operation {
+    public:
+        int min;
+        int max;
+        int pri;
+        bool exi;
+        Op* obj;
+        string ope;
 };
 
 bool onlyType(string s, string t);
