@@ -219,9 +219,10 @@ Run IF(long double a, long double b, string A, string B, Aditional ad) {
     ret.bLe = code.length()+1;
 
     if (a >= 0) {
-        parseR pr = parse(code, {});
+        parseR pr = parse(code, ad.keys);
 
         ret.ret = ad.ret;
+        ret.keys = ad.keys;
 
         ret.ret += "\n~~  START OF IF STATEMENT  ~~";
 
@@ -262,10 +263,11 @@ Run flexa(long double a, long double b, string A, string B, Aditional ad) {
     long double mult = 1;
 
     for (const auto &item: ad.keys) {
-        if (item.l == separate(A).l) mult = item.v / b;
+        numberF sep = separate(A);
+        if (item.l == sep.l) mult = (item.v * hstod(sep.n, ad.keys)) / b;
     }
 
-    ret.res = to_string(mult);
+    ret.res = formatNumber(to_string(mult)) + separate(std::move(B)).l;
 
     return ret;
 }

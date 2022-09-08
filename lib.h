@@ -34,6 +34,7 @@ class parseR {
 public:
     string full;
     string res;
+    vector<formatter> keys;
 };
 
 class Aditional {
@@ -73,3 +74,4 @@ parseR parse(string s, vector<formatter> keys);
 bool include(string s, string h);
 numberF separate(string num);
 long double hstod(string s, vector<formatter> keys);
+string formatNumber(string s);

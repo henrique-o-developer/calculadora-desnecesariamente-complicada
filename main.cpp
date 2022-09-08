@@ -351,12 +351,14 @@ parseR parse(string s, vector<formatter> keys) {
 
     pr.full = ret;
     pr.res = res;
+    pr.keys = keys;
 
     return pr;
 }
 
 int main() {
     string ex;
+    vector<formatter> dkeys;
 
     while (true) {
         cout << "\ndigite a conta para o programa resolver, caso nao queira mais digite \"parar\" ou \"help\" para ver os comandos\nconta:";
@@ -373,8 +375,12 @@ int main() {
             continue;
         }
 
+        parseR p = parse(ex, dkeys);
+
+        dkeys = p.keys;
+
         cout << "\n";
-        cout << parse(ex, {}).full;
+        cout << p.full;
     }
 
     //cout << "pow: " << pow(27,1.0/3.0) << ";\n";
