@@ -22,6 +22,7 @@ IF: a condição vai atras e o codigo na frente (a condição é maior que zero 
 
 {[()]}: normal da matematica :)
 
+## não coloque nenhum espaço ou acento poque o cin buga
 exemplos:
 
 50 DEFINE 2c<br>
@@ -31,7 +32,7 @@ exemplos:
 1c -> 1 (transforma 1c em 25)<br>
 0.1cm -> 1l (transforma 0.1cm em 0.01l)<br>
 
-(enfase nas variaveis NÃO É POSSIVEL usar letras maiusculas)
+## enfase nas variaveis NÃO É POSSIVEL usar letras maiusculas
 
 (1c == 25) IF 35-5; - 0
 
