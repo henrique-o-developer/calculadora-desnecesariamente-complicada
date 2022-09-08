@@ -4,6 +4,6 @@
 
 basicamente uma nova ling, porem atualmente esta em desenvolvimento
 
-(download)[https://github.com/henrique-o-developer/calculadora-desnecesariamente-complicada/raw/master/cmake-build-debug/bagulhador.exe]
+[download](https://github.com/henrique-o-developer/calculadora-desnecesariamente-complicada/raw/master/cmake-build-debug/bagulhador.exe)
 
 (/cmake-build-debug/bagulhador.exe)
