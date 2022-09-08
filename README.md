@@ -24,11 +24,12 @@ IF: a condição vai atras e o codigo na frente (a condição é maior que zero 
 
 exemplos:
 
-50 DEFINE 2c
-10 DEFINE 1cm
-10cm DEFINE 1l
-1c -> 1 (transforma 1c em 25)
-0.1cm -> 1l (transforma 0.1cm em 0.01l)
+50 DEFINE 2c<br>
+10 DEFINE 1cm<br>
+10cm DEFINE 1l<br>
+
+1c -> 1 (transforma 1c em 25)<br>
+0.1cm -> 1l (transforma 0.1cm em 0.01l)<br>
 
 (enfase nas variaveis NÃO É POSSIVEL usar letras maiusculas)
 
