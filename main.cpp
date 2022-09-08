@@ -1,4 +1,5 @@
 #include "operations.h"
+#include <bits/stdc++.h>
 
 string reverse(string s) {
     string ret;
@@ -10,7 +11,27 @@ string reverse(string s) {
     return ret;
 }
 
+bool include(string s, string h) {
+    bool ret = false;
+
+    for (int i = 0; i < s.length(); i++) {
+        bool e = true;
+
+        for (int j = 0; j < h.length(); j++) {
+            if (s[i + j] != h[j]) e = false;
+        }
+
+        if (e) {
+            ret = true;
+        }
+    }
+
+    return ret;
+}
+
 string formatNumber(string s) {
+    if (!include(s, ".")) return s;
+
     s = reverse(s);
     string ret;
     bool direct = true;
@@ -32,23 +53,7 @@ string formatNumber(string s) {
         }
     }
 
-    return reverse(ret);
-}
-
-bool include(string s, string h) {
-    bool ret = false;
-
-    for (int i = 0; i < s.length(); i++) {
-        bool e = true;
-
-        for (int j = 0; j < h.length(); j++) {
-            if (s[i + j] != h[j]) e = false;
-        }
-
-        if (e) {
-            ret = true;
-        }
-    }
+    ret = reverse(ret);
 
     return ret;
 }
@@ -74,7 +79,7 @@ string replace(string s, string r, string R) {
 }
 
 string catalog(string s) {
-    if (s == "n" || s == "." || s == "0" || s == "1" || s == "2" || s == "3" || s == "4" || s == "5" || s == "6" || s == "7" || s == "8" || s == "9") return "number";
+    if (s == "-" || s == "." || s == "0" || s == "1" || s == "2" || s == "3" || s == "4" || s == "5" || s == "6" || s == "7" || s == "8" || s == "9") return "number";
     if (s == " ") return "null";
 
     return s;
@@ -90,13 +95,16 @@ string catalog(char c) {
     return catalog(s);
 }
 
-bool onlyType(string s, string t) {
+bool onlyType(string s, const string& t) {
     if (catalog(s) == t) return true;
 
     for (const auto &item: s) if (catalog(item) != t) return false;
 
+    if (t == "number") if (include(s, "-")) if (s[0] != '-' || s[s.length()] != '-') return false;
+
     return true;
 }
+
 
 double hstod(string s) {
     s = replace(s, " ", "");
@@ -126,6 +134,13 @@ string generify(string s, int ii, bool fow) {
         if (me == catalog(c) || me == "null") {
             if (me == "null") me = catalog(c);
 
+            if (me == "number" && c == '-') {
+                if (catalog(s[i-1]) == "number") {
+                    cout << "break\n";
+                    break;
+                }
+            }
+
             ret += c;
         } else break;
     }
@@ -133,6 +148,11 @@ string generify(string s, int ii, bool fow) {
     if (!fow) ret = reverse(ret);
 
     return ret;
+}
+
+bool compareOp(Operation i1, Operation i2)
+{
+    return (i1.pri > i2.pri);
 }
 
 Operation getPriority(string s) {
@@ -143,21 +163,28 @@ Operation getPriority(string s) {
     vector<Op*> ops = getOperationss();
     vector<Operation> arr;
 
+    long long IFS = 0;
+
     for (int i = 0; i < s.length(); ++i) {
         for (const auto &item: ops) {
             bool is = true;
 
-            for (int j = 0; j < item->getOp().length(); ++j) {
-                if (s[i + j] != item->getOp()[j]) { is = false; break; }
+            for (int j = 0; j < item->op.length(); ++j) {
+                if (s[i + j] != item->op[j]) { is = false; break; }
+            }
+
+            if (is && item->op == "-") if (catalog(s[i-1]) != "number" || i == 0) {
+                cout << "continue\n";
+                continue;
             }
 
             if (is) {
                 Operation op;
 
                 op.min = i;
-                op.max = i+item->getOp().length()-1;
-                op.ope = s.substr(i, item->getOp().length());
-                op.pri = item->getPri();
+                op.max = i+item->op.length()-1;
+                op.ope = s.substr(i, item->op.length());
+                op.pri = item->pri - IFS;
                 op.exi = true;
                 op.obj = item;
 
@@ -170,31 +197,22 @@ Operation getPriority(string s) {
                 arr.push_back(op);
             }
         }
+
+        if (s[i] == 'I' && s[i+1] == 'F') IFS += 1000000;
+        if (s[i] == ';') IFS -= 1000000;
     }
 
-    unsigned int max_p = 0;
-    bool stop = false;
+    sort(arr.begin(), arr.end(), compareOp);
 
-    for (const auto &item: arr) if (item.pri > max_p) max_p = item.pri;
-
-    for (int i = max_p+1; i >= 0; i--) {
-        for (const auto &item: arr) {
-            if (i == item.pri && !stop) {
-                fin = item;
-
-                stop = true;
-            }
-        }
-    }
+    fin = arr[0];
 
     return fin;
 }
 
-string parse(string s) {
+parseR parse(string s) {
     while(include(s, " ")) s = replace(s, " ", "");
-    while(include(s, ";")) s = replace(s, ";", "");
 
-    string ret = "conta: " + s + ";\n", res;
+    string ret, res;
     Operation op = getPriority(s);
 
     while (op.exi) {
@@ -203,12 +221,24 @@ string parse(string s) {
         string OP = op.ope, A = generify(s, min, false), B = generify(s, max, true);
         double a = hstod(A), b = hstod(B);
 
+        cout << "A: " << A << ", B: " << b << ";\n";
+
         // code
-        Run r = op.obj->run(a, b, A, B);
+        Aditional ad;
+
+        ad.s = s;
+        ad.min = min;
+        ad.max = max;
+
+        Run r = op.obj->r(a, b, A, B, ad);
 
         res = r.res;
         bool useA = r.useA;
         bool useB = r.useB;
+        int aL = r.aLe == -1 ? A.length() : r.aLe;
+        int bL = r.bLe == -1 ? B.length() : r.bLe;
+
+        if (!r.ret.empty()) ret = r.ret;
 
         // using code
         string S;
@@ -218,10 +248,9 @@ string parse(string s) {
 
         ret += "\n";
 
-        res = replace(res, "-", "n");
         res = formatNumber(res);
 
-        if (useA) norm = min - A.length();
+        if (useA) norm = min - aL;
         else norm = min;
 
         c = s[norm - 1];
@@ -230,7 +259,7 @@ string parse(string s) {
 
         ret += s.substr(0, norm) + "~~  ";
 
-        if (useA) ret += A + " ";
+        if (useA) ret += s.substr(min-aL, aL) + " ";
 
         ret += OP;
 
@@ -239,14 +268,14 @@ string parse(string s) {
         S += res;
 
         haveSp = 0;
-        if (useB) norm = max + 1 + B.length();
+        if (useB) norm = max + 1 + bL;
         else norm = max + 1;
 
         c = s[max + B.length() + 1];
 
         if (c == ')' || c == ']' || c == '}') haveSp = 1;
 
-        if (useB) ret += " " + B;
+        if (useB) ret += " " + s.substr(max+1, bL);
 
         ret += " = ((" + res + "))";
 
@@ -258,6 +287,7 @@ string parse(string s) {
         s = S;
 
         if (onlyType(s, "number")) {
+            cout << "s: " << S << ";\n";
             ret += "\nRESULTADO FINAL: " + res;
             op.exi = false;
         } else {
@@ -265,7 +295,12 @@ string parse(string s) {
         }
     }
 
-    return ret;
+    parseR pr;
+
+    pr.full = ret;
+    pr.res = res;
+
+    return pr;
 }
 
 int main() {
@@ -277,7 +312,8 @@ int main() {
 
         if (ex == "parar") break;
 
-        cout << parse(ex);
+        cout << "\n";
+        cout << parse(ex).full;
     }
 
     //cout << "pow: " << pow(27,1.0/3.0) << ";\n";
