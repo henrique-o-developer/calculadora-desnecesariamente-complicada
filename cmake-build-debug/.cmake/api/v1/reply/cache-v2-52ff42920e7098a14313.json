@@ -851,7 +851,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "bagulhadorr"
+			"value" : "bagulhador"
 		},
 		{
 			"name" : "CMAKE_RANLIB",
@@ -1255,42 +1255,6 @@
 		},
 		{
 			"name" : "bagulhador_SOURCE_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "C:/Users/henri/OneDrive/Documentos/pro/c or c++/bagulhador"
-		},
-		{
-			"name" : "bagulhadorr_BINARY_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "C:/Users/henri/OneDrive/Documentos/pro/c or c++/bagulhador/cmake-build-debug"
-		},
-		{
-			"name" : "bagulhadorr_IS_TOP_LEVEL",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "ON"
-		},
-		{
-			"name" : "bagulhadorr_SOURCE_DIR",
 			"properties" : 
 			[
 				{

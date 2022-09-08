@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "bagulhadorr.exe"
+			"path" : "bagulhador.exe"
 		},
 		{
-			"path" : "bagulhadorr.pdb"
+			"path" : "bagulhador.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -59,7 +59,7 @@
 			]
 		}
 	],
-	"id" : "bagulhadorr::@6890427a1f51a3e7e1df",
+	"id" : "bagulhador::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -79,8 +79,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "bagulhadorr",
-	"nameOnDisk" : "bagulhadorr.exe",
+	"name" : "bagulhador",
+	"nameOnDisk" : "bagulhador.exe",
 	"paths" : 
 	{
 		"build" : ".",

@@ -11,6 +11,32 @@ string reverse(string s) {
     return ret;
 }
 
+bool includeOnly(string s, string h) {
+    bool ret = true;
+
+    for (int i = 0; i < s.length(); i++) {
+        bool ae = false;
+
+        for (int j = 0; j < h.length(); j++) {
+            if (s[i] == h[j]) ae = true;
+        }
+
+        if (!ae) ret = false;
+    }
+
+    return ret;
+}
+
+bool includeAny(string s, string h) {
+    for (int i = 0; i < s.length(); i++) {
+        for (int j = 0; j < h.length(); j++) {
+            if (s[i] == h[j]) return true;
+        }
+    }
+
+    return false;
+}
+
 bool include(string s, string h) {
     bool ret = false;
 
@@ -79,10 +105,28 @@ string replace(string s, string r, string R) {
 }
 
 string catalog(string s) {
-    if (s == "-" || s == "." || s == "0" || s == "1" || s == "2" || s == "3" || s == "4" || s == "5" || s == "6" || s == "7" || s == "8" || s == "9") return "number";
+    if (includeOnly(s, "0123456789.-abcdefghijklmnopqrstuvwxyz")) return "number";
     if (s == " ") return "null";
 
     return s;
+}
+
+numberF separate(string num) {
+    numberF ret;
+
+    for (const auto &item: num) {
+        stringstream ss;
+        string s;
+
+        ss << item;
+        ss >> s;
+
+        if (includeOnly(s, "abcdefghijklmnopqrstuvwxyz")) {
+            ret.l += s;
+        } else ret.n += s;
+    }
+
+    return ret;
 }
 
 string catalog(char c) {
@@ -98,22 +142,33 @@ string catalog(char c) {
 bool onlyType(string s, const string& t) {
     if (catalog(s) == t) return true;
 
-    for (const auto &item: s) if (catalog(item) != t) return false;
+    for (const auto &item: s) {
+        if (catalog(item) != t) return false;
+    }
 
-    if (t == "number") if (include(s, "-")) if (s[0] != '-' || s[s.length()] != '-') return false;
+
+    if (t == "number") if (include(s, "-")) if (s[0] != '-') return false;
 
     return true;
 }
 
 
-double hstod(string s) {
+long double hstod(string s, vector<formatter> keys) {
     s = replace(s, " ", "");
     s = replace(s, "n", "-");
+
+    string f = separate(s).l;
+
+    long double multiply = 1;
+
+    for (const auto &item: keys) {
+        if (f == item.l) multiply = item.v;
+    }
 
     if (!onlyType(s, "number")) return 0;
     if (s.empty()) return 0;
 
-    return stod(s);
+    return stod(s) * multiply;
 }
 
 string generify(string s, int ii, bool fow) {
@@ -136,7 +191,6 @@ string generify(string s, int ii, bool fow) {
 
             if (me == "number" && c == '-') {
                 if (catalog(s[i-1]) == "number") {
-                    cout << "break\n";
                     break;
                 }
             }
@@ -160,7 +214,7 @@ Operation getPriority(string s) {
 
     fin.exi = false;
 
-    vector<Op*> ops = getOperationss();
+    vector<Op*> ops = getOperations();
     vector<Operation> arr;
 
     long long IFS = 0;
@@ -174,7 +228,6 @@ Operation getPriority(string s) {
             }
 
             if (is && item->op == "-") if (catalog(s[i-1]) != "number" || i == 0) {
-                cout << "continue\n";
                 continue;
             }
 
@@ -209,7 +262,7 @@ Operation getPriority(string s) {
     return fin;
 }
 
-parseR parse(string s) {
+parseR parse(string s, vector<formatter> keys) {
     while(include(s, " ")) s = replace(s, " ", "");
 
     string ret, res;
@@ -219,9 +272,7 @@ parseR parse(string s) {
         // vars
         int min = op.min, max = op.max;
         string OP = op.ope, A = generify(s, min, false), B = generify(s, max, true);
-        double a = hstod(A), b = hstod(B);
-
-        cout << "A: " << A << ", B: " << b << ";\n";
+        long double a = hstod(A, keys), b = hstod(B, keys);
 
         // code
         Aditional ad;
@@ -229,6 +280,7 @@ parseR parse(string s) {
         ad.s = s;
         ad.min = min;
         ad.max = max;
+        ad.keys = keys;
 
         Run r = op.obj->r(a, b, A, B, ad);
 
@@ -239,6 +291,7 @@ parseR parse(string s) {
         int bL = r.bLe == -1 ? B.length() : r.bLe;
 
         if (!r.ret.empty()) ret = r.ret;
+        if (r.keys.size() != 0) keys = r.keys;
 
         // using code
         string S;
@@ -287,7 +340,6 @@ parseR parse(string s) {
         s = S;
 
         if (onlyType(s, "number")) {
-            cout << "s: " << S << ";\n";
             ret += "\nRESULTADO FINAL: " + res;
             op.exi = false;
         } else {
@@ -307,16 +359,27 @@ int main() {
     string ex;
 
     while (true) {
-        cout << "\ndigite a conta para o programa resolver, caso nao queira mais digite \"parar\"\nconta:";
+        cout << "\ndigite a conta para o programa resolver, caso nao queira mais digite \"parar\" ou \"help\" para ver os comandos\nconta:";
         cin >> ex;
 
         if (ex == "parar") break;
+        if (ex == "help") {
+            for (const auto &item: getOperations()) {
+                cout << "op: " << item->op << ", prioridade de execucao: " << item->pri << ";\n";
+            }
+
+            cout << "total de comandos: " << getOperations().size() << ";\n";
+
+            continue;
+        }
 
         cout << "\n";
-        cout << parse(ex).full;
+        cout << parse(ex, {}).full;
     }
 
     //cout << "pow: " << pow(27,1.0/3.0) << ";\n";
+
+    //separate("22.33578bac");
 
     //cout << "gp: " + getPriority("3+33+333+3333").ope + ";\n";
 

@@ -1,11 +1,3 @@
 # ninja log v5
-20	3349	6843605265127476	CMakeFiles/bagulhador.dir/main.cpp.obj	e1a8593be7c0ad4d
-7777	8248	6843597408050800	bagulhador.exe	b259296312ffbd17
-1	3373	6843606064070955	CMakeFiles/bagulhadorr.dir/main.cpp.obj	99a9051d9eb3d8ff
-3378	3893	6843606069161277	bagulhadorr.exe	365b55ffce397bf7
-8	8775	6843607717979826	CMakeFiles/bagulhadorr.dir/main.cpp.obj	99a9051d9eb3d8ff
-8776	9288	6843607723113788	bagulhadorr.exe	365b55ffce397bf7
-7	8617	6843609816937308	CMakeFiles/bagulhadorr.dir/main.cpp.obj	99a9051d9eb3d8ff
-8618	9164	6843609822422958	bagulhadorr.exe	365b55ffce397bf7
-5	7616	6843621930750869	CMakeFiles/bagulhadorr.dir/main.cpp.obj	99a9051d9eb3d8ff
-7618	8063	6843621935117348	bagulhadorr.exe	365b55ffce397bf7
+1	10076	6843753032929913	CMakeFiles/bagulhador.dir/main.cpp.obj	e1a8593be7c0ad4d
+10081	10492	6843753037138654	bagulhador.exe	b259296312ffbd17
