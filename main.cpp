@@ -104,7 +104,7 @@ string replace(string s, string r, string R) {
 }
 
 string catalog(string s) {
-    if (includeOnly(s, "0123456789.-abcdefghijklmnopqrstuvwxyz,_")) return "number";
+    if (includeOnly(s, "0123456789.-abcdefghijklmnopqrstuvwxyz,")) return "number";
     if (s == " ") return "null";
 
     return s;
