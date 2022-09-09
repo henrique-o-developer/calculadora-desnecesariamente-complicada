@@ -331,14 +331,14 @@ Run declarar(vector<long double> a, vector<long double> b, vector<string> A, vec
     for (int i = 0; i < code.length(); ++i) {
         char item = code[i];
 
-        if (item == ':' & code[i+1] == '$') {
+        if (item == ':' & code[i+1] == 'C') {
             funcs--;
             fin = i;
         }
 
         if (funcs == 0) break;
 
-        if (item == '$' && code[i+1] == ':') {
+        if (item == 'C' && code[i+1] == ':') {
             funcs++;
         }
     }
