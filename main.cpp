@@ -253,7 +253,11 @@ Operation getPriority(string s) {
     long long IFS = 0;
 
     for (int i = 0; i < s.length(); ++i) {
+        bool conf = false;
+
         for (const auto &item: ops) {
+            if (conf) continue;
+
             bool is = true;
 
             for (int j = 0; j < item->op.length(); ++j) {
@@ -273,6 +277,7 @@ Operation getPriority(string s) {
                 op.pri = item->pri - IFS;
                 op.exi = true;
                 op.obj = item;
+                conf = true;
 
                 int g = generify(s, i, false).length();
 
