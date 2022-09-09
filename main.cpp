@@ -401,7 +401,8 @@ int main() {
 
     while (true) {
         cout << "\ndigite a conta para o programa resolver, caso nao queira mais digite \"parar\" ou \"help\" para ver os comandos\nconta:";
-        cin >> ex;
+
+        getline(cin, ex);
 
         if (ex == "parar") break;
         if (ex == "help") {
