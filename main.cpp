@@ -1,5 +1,4 @@
 #include "operations.h"
-#include <bits/stdc++.h>
 
 string reverse(string s) {
     string ret;

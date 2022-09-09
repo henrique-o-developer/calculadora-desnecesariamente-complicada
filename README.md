@@ -10,15 +10,17 @@ basicamente uma nova ling, porem atualmente esta em desenvolvimento
 
 documentação:
 
-+, -, *, /, !, ?: não preciso nem explicar ne???
++, -, *, /, !: não preciso nem explicar ne???
 
-COS, TAN: so aceitam parametros pela frente
+COS, TAN, EXP: so aceitam parametros pela frente
 
-SQRT: o parametro de traz é opcional
+SQRT, LOG: o parametro de traz é opcional
 
 DEFINE, ->: o parametro de tras é quevilente ao da frente
 
 IF: a condição vai atras e o codigo na frente (a condição é maior que zero ou não)
+
+PER: aceita o parametro (x) como variavel extra
 
 {[()]}: normal da matematica :)
 
@@ -28,6 +30,7 @@ exemplos:
 50 DEFINE 2c<br>
 10 DEFINE 1cm<br>
 10cm DEFINE 1l<br>
+150 DEFINE 1cmc<br>
 
 1c -> 1 (transforma 1c em 25)<br>
 0.1cm -> 1l (transforma 0.1cm em 0.01l)<br>
@@ -36,4 +39,7 @@ exemplos:
 
 (1c == 25) IF 35-5; - 0
 
-esqueci de algo? vai descobrir sosinho :)
+50 PER 30 (15 ~~ 30 / **100** * 50 ~~)<br>
+50cmc PER 30 (10 ~~ 30 / **150** * 50 ~~)<br>
+
+### esqueci de algo? vai descobrir sosinho :)

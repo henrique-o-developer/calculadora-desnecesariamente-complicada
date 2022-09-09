@@ -272,11 +272,58 @@ Run flexa(long double a, long double b, string A, string B, Aditional ad) {
     return ret;
 }
 
+Run logaritimo(long double a, long double b, string A, string B, Aditional ad) {
+    Run r;
+
+    long double base = 2;
+
+    if (a > 1) base = a;
+    else r.useA = false;
+
+    r.res = to_string(log(b) / log(base));
+
+    return r;
+}
+
+Run exponencial(long double a, long double b, string A, string B, Aditional ad) {
+    Run ret;
+
+    ret.res = to_string(exp(b));
+
+    ret.useA = false;
+
+    return ret;
+}
+
+Run fatorial(long double a, long double b, string A, string B, Aditional ad) {
+    Run ret;
+
+    ret.useA = false;
+
+    ret.res = to_string(tgamma(b+1));
+
+    return ret;
+}
+
+Run por(long double a, long double b, string A, string B, Aditional ad) {
+    Run ret;
+
+    long double per = 100;
+    long double cent = hstod(separate(A).n, ad.keys);
+
+    for (const auto &item: ad.keys) {
+        if (item.l == separate(A).l) per = item.v;
+    }
+
+    ret.res = to_string(b / per * cent);
+
+    return ret;
+}
+
 vector<Op*> getOperations() {
     vector<Op*> ops;
 
     ops.push_back(new Op(IF, 0, "IF"));
-    ops.push_back(new Op(inverte, 0, "!"));
     ops.push_back(new Op(mais, 1, "+"));
     ops.push_back(new Op(menos, 1, "-"));
     ops.push_back(new Op(vezes, 2, "*"));
@@ -285,11 +332,16 @@ vector<Op*> getOperations() {
     ops.push_back(new Op(raiz_quadrada, 3, "SQRT"));
     ops.push_back(new Op(cosseno, 4, "COS"));
     ops.push_back(new Op(tangente, 4, "TAN"));
+    ops.push_back(new Op(logaritimo, 4, "LOG"));
     ops.push_back(new Op(modulo, 4, "MDL"));
+    ops.push_back(new Op(exponencial, 4, "EXP"));
+    ops.push_back(new Op(fatorial, 4, "FAC"));
+    ops.push_back(new Op(por, 4, "PER"));
     ops.push_back(new Op(igual, 50, "=="));
     ops.push_back(new Op(maiorQue, 50, ">"));
     ops.push_back(new Op(menorQue, 50, "<"));
     ops.push_back(new Op(diferente, 50, "!="));
+    ops.push_back(new Op(inverte, 50, "!"));
     ops.push_back(new Op(E, 50, "&&"));
     ops.push_back(new Op(OU, 50, "||"));
     ops.push_back(new Op(PI, 100, "(PI)"));
