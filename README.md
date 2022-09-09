@@ -45,7 +45,7 @@ exemplos:
 30 PER 50 (15 ~~ 30 / **100** * 50 ~~)<br>
 30 PER 50,150 (10 ~~ 30 / **150** * 50 ~~)<br>
 
-funcaolegal DECLARE $:ARGS0+1:$ (para pegar um parametro use ARGS e o numero do parametro)
+funcaolegal DECLARE \$:ARGS0+1:$ (para pegar um parametro use ARGS e o numero do parametro)
 funcaolegal RUN 123 (argumentosseparados por virgula)
 
 ### esqueci de algo? vai descobrir sosinho :)
