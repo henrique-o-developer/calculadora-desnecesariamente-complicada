@@ -14,6 +14,12 @@ public:
     long double v;
 };
 
+class funct {
+public:
+    string n;
+    string c;
+};
+
 class Run {
 public:
     string res;
@@ -23,6 +29,7 @@ public:
     int bLe = -1;
     string ret;
     vector<formatter> keys;
+    vector<funct> func;
 };
 
 class numberF {
@@ -36,6 +43,7 @@ public:
     string full;
     string res;
     vector<formatter> keys;
+    vector<funct> func;
 };
 
 class Aditional {
@@ -44,19 +52,24 @@ public:
     string ret;
     int min;
     int max;
+    string A;
+    string B;
     vector<formatter> keys;
+    vector<funct> func;
 };
 
 class Op {
 public:
-    Run (*r)(long double a, long double b, string A, string B, Aditional ad);
+    Run (*r)(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad);
     int pri;
     string op;
+    string rev;
 
-    Op(Run (*rc)(long double a, long double b, string A, string B, Aditional ad), int pric, string opc) {
+    Op(Run (*rc)(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad), int pric, string opc, string reverse) {
         r = rc;
         pri = pric;
         op = std::move(opc);
+        rev = reverse;
     }
 };
 
@@ -71,8 +84,10 @@ public:
 };
 
 bool onlyType(string s, const string& t);
-parseR parse(string s, vector<formatter> keys);
+parseR parse(string s, vector<formatter> keys, vector<funct> func);
 bool include(string s, string h);
 numberF separate(string num);
-long double hstod(string s, vector<formatter> keys);
+vector<long double> hstod(string s, vector<formatter> keys);
 string formatNumber(string s);
+string generify(string s, int ii, bool fow);
+vector<string> split(string s, string d);

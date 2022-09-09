@@ -104,7 +104,7 @@ string replace(string s, string r, string R) {
 }
 
 string catalog(string s) {
-    if (includeOnly(s, "0123456789.-abcdefghijklmnopqrstuvwxyz")) return "number";
+    if (includeOnly(s, "0123456789.-abcdefghijklmnopqrstuvwxyz,_")) return "number";
     if (s == " ") return "null";
 
     return s;
@@ -151,23 +151,57 @@ bool onlyType(string s, const string& t) {
     return true;
 }
 
+vector<string> split(string s, string d) {
+    vector<string> ret;
+    int min = 0;
 
-long double hstod(string s, vector<formatter> keys) {
-    s = replace(s, " ", "");
-    s = replace(s, "n", "-");
+    for (int i = 0; i < s.length(); i++) {
+        bool e = true;
 
-    string f = separate(s).l;
+        for (int j = 0; j < d.length(); j++) {
+            if (s[i + j] != d[j]) e = false;
+        }
 
-    long double multiply = 1;
-
-    for (const auto &item: keys) {
-        if (f == item.l) multiply = item.v;
+        if (e) {
+            ret.push_back(s.substr(min, i-min));
+            min = i+1;
+        }
     }
 
-    if (!onlyType(s, "number")) return 0;
-    if (s.empty()) return 0;
+    ret.push_back(s.substr(min, s.length()));
 
-    return stod(s) * multiply;
+    return ret;
+}
+
+vector<long double> hstod(string s, vector<formatter> keys) {
+    s = replace(s, " ", "");
+    vector<long double> ret;
+
+    for (const auto &item: split(s, ",")) {
+        string f = separate(item).l;
+        string n = separate(item).n;
+        n = n.empty() ? "1" : n;
+
+        long double multiply = 1;
+
+        for (const auto &item: keys) {
+            if (f == item.l) multiply = item.v;
+        }
+
+        if (!onlyType(s, "number")) {
+            ret.push_back(0);
+            continue;
+        }
+
+        if (s.empty()) {
+            ret.push_back(0);
+            continue;
+        }
+
+        ret.push_back(stold(n) * multiply);
+    }
+
+    return ret;
 }
 
 string generify(string s, int ii, bool fow) {
@@ -261,7 +295,7 @@ Operation getPriority(string s) {
     return fin;
 }
 
-parseR parse(string s, vector<formatter> keys) {
+parseR parse(string s, vector<formatter> keys, vector<funct> func) {
     while(include(s, " ")) s = replace(s, " ", "");
 
     string ret, res;
@@ -271,7 +305,7 @@ parseR parse(string s, vector<formatter> keys) {
         // vars
         int min = op.min, max = op.max;
         string OP = op.ope, A = generify(s, min, false), B = generify(s, max, true);
-        long double a = hstod(A, keys), b = hstod(B, keys);
+        vector<long double> a = hstod(A, keys), b = hstod(B, keys);
 
         // code
         Aditional ad;
@@ -280,8 +314,11 @@ parseR parse(string s, vector<formatter> keys) {
         ad.min = min;
         ad.max = max;
         ad.keys = keys;
+        ad.func = func;
+        ad.A = A;
+        ad.B = B;
 
-        Run r = op.obj->r(a, b, A, B, ad);
+        Run r = op.obj->r(a, b, split(A, ","), split(B, ","), ad);
 
         res = r.res;
         bool useA = r.useA;
@@ -291,6 +328,7 @@ parseR parse(string s, vector<formatter> keys) {
 
         if (!r.ret.empty()) ret = r.ret;
         if (r.keys.size() != 0) keys = r.keys;
+        if (r.func.size() != 0) func = r.func;
 
         // using code
         string S;
@@ -351,6 +389,7 @@ parseR parse(string s, vector<formatter> keys) {
     pr.full = ret;
     pr.res = res;
     pr.keys = keys;
+    pr.func = func;
 
     return pr;
 }
@@ -358,6 +397,7 @@ parseR parse(string s, vector<formatter> keys) {
 int main() {
     string ex;
     vector<formatter> dkeys;
+    vector<funct> dfunct;
 
     while (true) {
         cout << "\ndigite a conta para o programa resolver, caso nao queira mais digite \"parar\" ou \"help\" para ver os comandos\nconta:";
@@ -374,13 +414,16 @@ int main() {
             continue;
         }
 
-        parseR p = parse(ex, dkeys);
+        parseR p = parse(ex, dkeys, dfunct);
 
         dkeys = p.keys;
+        dfunct = p.func;
 
         cout << "\n";
         cout << p.full;
     }
+
+    //cout << "fn: " << formatNumber(to_string((long double) 12)) << ";\n";
 
     //cout << "pow: " << pow(27,1.0/3.0) << ";\n";
 
