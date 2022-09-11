@@ -11,7 +11,7 @@
 # =============================================================================
 
 # =============================================================================
-# Project: bagulhador
+# Project: bagulhadorr
 # Configurations: Debug
 # =============================================================================
 
@@ -41,37 +41,37 @@ include CMakeFiles/rules.ninja
 
 cmake_ninja_workdir = C$:/Users/henri/OneDrive/Documentos/pro/c$ or$ c++/bagulhador/cmake-build-debug/
 # =============================================================================
-# Object build statements for EXECUTABLE target bagulhador
+# Object build statements for EXECUTABLE target bagulhadorr
 
 
 #############################################
-# Order-only phony target for bagulhador
+# Order-only phony target for bagulhadorr
 
-build cmake_object_order_depends_target_bagulhador: phony || CMakeFiles/bagulhador.dir
+build cmake_object_order_depends_target_bagulhadorr: phony || CMakeFiles/bagulhadorr.dir
 
-build CMakeFiles/bagulhador.dir/main.cpp.obj: CXX_COMPILER__bagulhador_Debug C$:/Users/henri/OneDrive/Documentos/pro/c$ or$ c++/bagulhador/main.cpp || cmake_object_order_depends_target_bagulhador
-  DEP_FILE = CMakeFiles\bagulhador.dir\main.cpp.obj.d
+build CMakeFiles/bagulhadorr.dir/main.cpp.obj: CXX_COMPILER__bagulhadorr_Debug C$:/Users/henri/OneDrive/Documentos/pro/c$ or$ c++/bagulhador/main.cpp || cmake_object_order_depends_target_bagulhadorr
+  DEP_FILE = CMakeFiles\bagulhadorr.dir\main.cpp.obj.d
   FLAGS = -g -std=gnu++14
-  OBJECT_DIR = CMakeFiles\bagulhador.dir
-  OBJECT_FILE_DIR = CMakeFiles\bagulhador.dir
+  OBJECT_DIR = CMakeFiles\bagulhadorr.dir
+  OBJECT_FILE_DIR = CMakeFiles\bagulhadorr.dir
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target bagulhador
+# Link build statements for EXECUTABLE target bagulhadorr
 
 
 #############################################
-# Link the executable bagulhador.exe
+# Link the executable bagulhadorr.exe
 
-build bagulhador.exe: CXX_EXECUTABLE_LINKER__bagulhador_Debug CMakeFiles/bagulhador.dir/main.cpp.obj
+build bagulhadorr.exe: CXX_EXECUTABLE_LINKER__bagulhadorr_Debug CMakeFiles/bagulhadorr.dir/main.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\bagulhador.dir
+  OBJECT_DIR = CMakeFiles\bagulhadorr.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_FILE = bagulhador.exe
-  TARGET_IMPLIB = libbagulhador.dll.a
-  TARGET_PDB = bagulhador.exe.dbg
+  TARGET_FILE = bagulhadorr.exe
+  TARGET_IMPLIB = libbagulhadorr.dll.a
+  TARGET_PDB = bagulhadorr.exe.dbg
 
 
 #############################################
@@ -99,7 +99,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # =============================================================================
 # Target aliases.
 
-build bagulhador: phony bagulhador.exe
+build bagulhadorr: phony bagulhadorr.exe
 
 # =============================================================================
 # Folder targets.
@@ -109,7 +109,7 @@ build bagulhador: phony bagulhador.exe
 #############################################
 # Folder: C:/Users/henri/OneDrive/Documentos/pro/c or c++/bagulhador/cmake-build-debug
 
-build all: phony bagulhador.exe
+build all: phony bagulhadorr.exe
 
 # =============================================================================
 # Built-in targets

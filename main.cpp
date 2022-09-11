@@ -242,6 +242,11 @@ bool compareOp(Operation i1, Operation i2)
     return (i1.pri > i2.pri);
 }
 
+bool compareOps(Op* i1, Op* i2)
+{
+    return (i1->op.length() > i2->op.length());
+}
+
 Operation getPriority(string s) {
     Operation fin;
 
@@ -249,6 +254,8 @@ Operation getPriority(string s) {
 
     vector<Op*> ops = getOperations();
     vector<Operation> arr;
+
+    sort(ops.begin(), ops.end(), compareOps);
 
     long long IFS = 0;
 

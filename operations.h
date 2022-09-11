@@ -3,88 +3,188 @@
 #include "lib.h"
 
 Run mais(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad) {
-    Run r;
+    Run ret;
+    string res = "";
 
-    r.res = to_string(a[0]+b[0]);
+    for (const auto &item: a) {
+        long double i = item;
 
-    return r;
+        for (const auto &item: b){
+            i += item;
+        }
+
+        res += formatNumber(to_string(i)) + ", ";
+    }
+
+    res = res.substr(0, res.length()-2);
+
+    ret.res = res;
+
+    return ret;
 };
 
 Run menos(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad) {
-    Run r;
+    Run ret;
+    string res = "";
 
-    r.res = to_string(a[0]-b[0]);
+    for (const auto &item: a) {
+        long double i = item;
 
-    return r;
+        for (const auto &item: b){
+            i -= item;
+        }
+
+        res += formatNumber(to_string(i)) + ", ";
+    }
+
+    res = res.substr(0, res.length()-2);
+
+    ret.res = res;
+
+    return ret;
 };
 
 Run dividido(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad) {
-    Run r;
+    Run ret;
+    string res = "";
 
-    r.res = to_string(a[0]/b[0]);
+    for (const auto &item: a) {
+        long double i = item;
 
-    return r;
+        for (const auto &item: b){
+            i /= item;
+        }
+
+        res += formatNumber(to_string(i)) + ", ";
+    }
+
+    res = res.substr(0, res.length()-2);
+
+    ret.res = res;
+
+    return ret;
 };
 
 Run vezes(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad) {
-    Run r;
+    Run ret;
+    string res = "";
 
-    r.res = to_string(a[0]*b[0]);
+    for (const auto &item: a) {
+        long double i = item;
 
-    return r;
+        for (const auto &item: b){
+            i *= item;
+        }
+
+        res += formatNumber(to_string(i)) + ", ";
+    }
+
+    res = res.substr(0, res.length()-2);
+
+    ret.res = res;
+
+    return ret;
 };
 
 Run elevado(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad) {
-    Run r;
+    Run ret;
+    string res = "";
 
-    r.res = to_string(pow(a[0], b[0]));
+    for (const auto &item: a) {
+        long double i = item;
 
-    return r;
+        for (const auto &item: b){
+            i = pow(i, item);
+        }
+
+        res += formatNumber(to_string(i)) + ", ";
+    }
+
+    res = res.substr(0, res.length()-2);
+
+    ret.res = res;
+
+    return ret;
 };
 
 Run raiz_quadrada(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad) {
-    Run r;
+    Run ret;
+    string res = "";
 
-    long double sq;
+    for (const auto &item: b) {
+        long double i = item;
 
-    if (onlyType(A[0], "number") && !A.empty()) sq = a[0];
-    else {
-        sq = 2;
+        long double sq = 2;
 
-        r.useA = false;
+        ret.useA = false;
+
+        for (const auto &item2: a){
+            if (item2 > 1) {
+                sq = item2;
+                ret.useA = true;
+                i = pow(i, 1/sq);
+                sq = 1;
+            }
+        }
+
+        i = pow(i, 1/sq);
+
+        res += formatNumber(to_string(i)) + ", ";
     }
 
-    r.res = to_string(pow(b[0], 1/sq));
+    res = res.substr(0, res.length()-2);
 
-    return r;
+    ret.res = res;
+
+    return ret;
 };
 
 Run cosseno(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad) {
-    Run r;
+    Run ret;
+    string res = "";
 
-    r.res = to_string(cos(b[0]));
+    for (const auto &item: b) {
+        long double i = item;
 
-    r.useA = false;
+        res += formatNumber(to_string(cos(i))) + ", ";
+    }
 
-    return r;
+    ret.useA = false;
+
+    res = res.substr(0, res.length()-2);
+
+    ret.res = res;
+
+    return ret;
 };
 
 Run tangente(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad) {
-    Run r;
+    Run ret;
+    string res = "";
 
-    r.res = to_string(tan(b[0]));
+    for (const auto &item: b) {
+        long double i = item;
 
-    r.useA = false;
+        res += formatNumber(to_string(tan(i))) + ", ";
+    }
 
-    return r;
+    ret.useA = false;
+
+    res = res.substr(0, res.length()-2);
+
+    ret.res = res;
+
+    return ret;
 };
 
 Run igual(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad) {
     Run ret;
 
-    if (a == b || A == B) {
-        ret.res = "1";
-    } else ret.res = "-1";
+    ret.res = "1";
+
+    for (int i = 0; i < a.size(); ++i) {
+        if (a[i] != b[i]) ret.res = "-1";
+    }
 
     return ret;
 }
@@ -92,53 +192,76 @@ Run igual(vector<long double> a, vector<long double> b, vector<string> A, vector
 Run maiorQue(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad) {
     Run ret;
 
-    if (a > b) {
-        ret.res = "1";
-    } else ret.res = "-1";
+    ret.res = "1";
+
+    for (int i = 0; i < a.size(); ++i) {
+        if (a[i] <= b[i]) ret.res = "-1";
+    }
 
     return ret;
 }
 
 Run menorQue(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad) {
-    Run ret {};
+    Run ret;
 
-    if (a < b) {
-        ret.res = "1";
-    } else ret.res = "-1";
+    ret.res = "1";
+
+    for (int i = 0; i < a.size(); ++i) {
+        if (a[i] >= b[i]) ret.res = "-1";
+    }
 
     return ret;
 }
 
 Run diferente(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad) {
-    Run ret {};
+    Run ret;
 
-    if (a != b || A != B) {
-        ret.res = "1";
-    } else ret.res = "-1";
+    ret.res = "1";
+
+    for (int i = 0; i < a.size(); ++i) {
+        if (a[i] == b[i]) ret.res = "-1";
+    }
 
     return ret;
 }
 
 Run inverte(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad) {
     Run ret {};
+    string res = "";
 
     ret.useA = false;
 
-    ret.res = to_string(b[0] *= -1);
+    for (const auto &item: b) {
+        res += to_string(item * -1);
+    }
+
+    res = res.substr(0, res.length()-2);
+
+    ret.res = res;
 
     return ret;
 }
 
 Run modulo(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad) {
     Run ret {};
+    string res = "";
+
+    for (const auto &item: b) {
+        long double i = item;
+
+        if (i >= 0) res += formatNumber(to_string(i));
+        else res = formatNumber(to_string(i * -1));
+
+        res += ", ";
+    }
 
     ret.useA = false;
 
-    if (b[0] >= 0) ret.res = to_string(b[0]);
-    else ret.res = to_string(b[0] *= -1);
+    res = res.substr(0, res.length()-2);
 
-    return ret;
-}
+    ret.res = res;
+
+    return ret;}
 
 Run PI(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad) {
     Run ret {};
@@ -176,8 +299,11 @@ Run PI_PRA_QUE_TANTO(vector<long double> a, vector<long double> b, vector<string
 Run E(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad) {
     Run ret;
 
-    if (a[0] >= 0 && b[0] >= 0) ret.res = "1";
-    else ret.res = "-1";
+    ret.res = "1";
+
+    for (int i = 0; i < a.size(); ++i) {
+        if (a[i] < 0 || b[i] < 0) ret.res = "-1";
+    }
 
     return ret;
 }
@@ -185,8 +311,11 @@ Run E(vector<long double> a, vector<long double> b, vector<string> A, vector<str
 Run OU(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad) {
     Run ret;
 
-    if (a[0] >= 0 || b[0] >= 0) ret.res = "1";
-    else ret.res = "-1";
+    ret.res = "1";
+
+    for (int i = 0; i < a.size(); ++i) {
+        if (a[i] < 0 && b[i] < 0) ret.res = "-1";
+    }
 
     return ret;
 }
@@ -218,23 +347,14 @@ Run IF(vector<long double> a, vector<long double> b, vector<string> A, vector<st
 
     ret.bLe = code.length()+1;
 
-    if (a[0] >= 0) {
-        parseR pr = parse(code, ad.keys, ad.func);
+    bool exec = true;
 
-        ret.ret = ad.ret;
-        ret.keys = ad.keys;
+    for (const auto &item: a) {
+        if (item < 0) exec = false;
+    }
 
-        ret.ret += "\n==  START OF IF STATEMENT  ==";
-
-        ret.ret += pr.full;
-
-        ret.ret += "\n==  END OF IF STATEMENT  ==";
-
-        ret.res = pr.res;
-
-
-        ret.keys = pr.keys;
-        ret.func = pr.func;
+    if (exec) {
+        ret.ret = code;
     } else ret.res = to_string(0);
 
     return ret;
@@ -277,34 +397,61 @@ Run flexa(vector<long double> a, vector<long double> b, vector<string> A, vector
 }
 
 Run logaritimo(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad) {
-    Run r;
+    Run ret;
+    string res = "";
 
-    long double base = 2;
+    for (const auto &item: b) {
+        long double base = 2;
 
-    if (a[0] > 1) base = a[0];
-    else r.useA = false;
+        for (const auto &item2: a) {
+            if (item2 >= 2) {
+                base = item2;
+                ret.useA = true;
+            }
 
-    r.res = to_string(log(b[0]) / log(base));
+            res += formatNumber(to_string(log(item) / log(base))) + ", ";
+        }
+    }
 
-    return r;
+    res = res.substr(0, res.length()-2);
+
+    ret.res = res;
+
+    return ret;
 }
 
 Run exponencial(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad) {
     Run ret;
+    string res = "";
 
-    ret.res = to_string(exp(b[0]));
+    for (const auto &item: b) {
+        long double i = item;
+
+        res += formatNumber(to_string(exp(i))) + ", ";
+    }
 
     ret.useA = false;
+
+    res = res.substr(0, res.length()-2);
+
+    ret.res = res;
 
     return ret;
 }
 
 Run fatorial(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad) {
     Run ret;
+    string res = "";
+
+    for (const auto &item: b) {
+        res += formatNumber(to_string(tgamma(item))) + ", ";
+    }
 
     ret.useA = false;
 
-    ret.res = to_string(tgamma(b[0]+1));
+    res = res.substr(0, res.length()-2);
+
+    ret.res = res;
 
     return ret;
 }
@@ -388,22 +535,49 @@ Run run_function(vector<long double> a, vector<long double> b, vector<string> A,
                 c = s;
             }
 
-            parseR p = parse(c, ad.keys, ad.func);
-
-            ret.res = p.res;
-
-            ret.ret = ad.ret;
-            ret.ret += "\n==  START FUNCTION STATEMENT ==";
-            ret.ret += p.full;
-            ret.ret += "\n==  END FUNCTION STATEMENT ==";
-
-            ret.keys = p.keys;
-            ret.func = p.func;
+            ret.res = c;
         }
     }
 
     return ret;
 }
+
+Run loop_function(vector<long double> a, vector<long double> b, vector<string> A, vector<string> B, Aditional ad) {
+    Run ret;
+
+    ret.res = "";
+
+    for (const auto &item: ad.func) {
+        if (item.n == A[0]) {
+            string c = item.c;
+
+            while (include(c, "ARGS")) {
+                int i = c.find_first_of("ARGS");
+
+                string g = split(generify(c, i+3, true), ",")[0];
+
+                int arg = hstod(g, ad.keys)[0];
+
+                string s;
+
+                s = c.substr(0, i);
+
+                s += formatNumber(to_string(b[arg]));
+
+                s += c.substr(i+4+g.length(), c.length());
+
+                c = s;
+            }
+
+            for (int i = 0; i < a[1]; ++i) {
+                ret.res += "(" + c + ")";
+            }
+        }
+    }
+
+    return ret;
+}
+
 
 vector<Op*> getOperations() {
     vector<Op*> ops;
@@ -417,7 +591,7 @@ vector<Op*> getOperations() {
     ops.push_back(new Op(raiz_quadrada, 3, "SQRT", "^"));
     ops.push_back(new Op(cosseno, 4, "COS", ""));
     ops.push_back(new Op(tangente, 4, "TAN", ""));
-    ops.push_back(new Op(logaritimo, 4, "LOG", "!"));
+    ops.push_back(new Op(logaritimo, 4, "LOG", "FAC"));
     ops.push_back(new Op(modulo, 4, "MDL", ""));
     ops.push_back(new Op(exponencial, 4, "EXP", "LOG"));
     ops.push_back(new Op(fatorial, 4, "FAC", "LOG"));
@@ -434,6 +608,7 @@ vector<Op*> getOperations() {
     ops.push_back(new Op(PI_PRA_QUE_TANTO, 100, "(PI-SUPER-EXTENDED)", "(PI-SUPER-EXTENDED)"));
     ops.push_back(new Op(defina, 150, "DEFINE", "DEFINE"));
     ops.push_back(new Op(run_function, 150, "RUN", ""));
+    ops.push_back(new Op(loop_function, 150, "LOOP", ""));
     ops.push_back(new Op(flexa, 150, "->", "->"));
     ops.push_back(new Op(declarar, 200, "DECLARE", ""));
 
